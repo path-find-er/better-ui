@@ -1,0 +1,70 @@
+Total token count: 297
+
+betterUI/
+ tsconfig.node.json
+ .DS_Store
+ run.ipynb
+ postcss.config.cjs
+ yarn.lock
+ tailwind.config.cjs
+ .gitignore
+ package.json
+ vite-env.d.ts
+ .env
+ components.json
+ plan.md
+ tsconfig.json
+ obfuscate.js
+ notes.md
+ vite.config.ts
+ output.txt
+ public/
+  manifestv3.json
+  vite.svg
+  manifest.json
+ src/
+  utils.ts
+  types.ts
+  constants.ts
+  background/
+   vite.chrome.background.config.ts
+   background.ts
+   background.html
+  worklets/
+   audioCaptureWorklet.js
+  popup/
+   popup.html
+  content-script/
+   index.tsx
+   App.tsx
+   vite.content.config.ts
+   index.css
+  components/
+   ResponsiveOverlay.tsx
+   Floater.tsx
+   ComboBox.tsx
+   LanguageSelector.tsx
+   VideoTranslator.tsx
+   ui/
+    popover.tsx
+    command.tsx
+    dialog.tsx
+    button.tsx
+    toast.tsx
+  hooks/
+   useAudioChunkRecorder.tsx
+   useAudioStream_old.tsx
+   useMediaStreams.tsx
+   useAudioContext.tsx
+   useMediaRecorder.tsx
+  data/
+   example.ts
+   langauges.ts
+  helpers/
+   audio/
+    idGeneration.ts
+    blobConverters.ts
+    translate.ts
+
+---
+
