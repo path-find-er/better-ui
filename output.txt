@@ -1,70 +1,57 @@
-Total token count: 297
+total: 466
 
-betterUI/
- tsconfig.node.json
- .DS_Store
- run.ipynb
- postcss.config.cjs
- yarn.lock
- tailwind.config.cjs
- .gitignore
- package.json
- vite-env.d.ts
- .env
- components.json
- plan.md
- tsconfig.json
- obfuscate.js
- notes.md
- vite.config.ts
- output.txt
- public/
-  manifestv3.json
-  vite.svg
-  manifest.json
- src/
-  utils.ts
-  types.ts
-  constants.ts
-  background/
-   vite.chrome.background.config.ts
-   background.ts
-   background.html
-  worklets/
-   audioCaptureWorklet.js
-  popup/
-   popup.html
-  content-script/
-   index.tsx
-   App.tsx
-   vite.content.config.ts
-   index.css
-  components/
-   ResponsiveOverlay.tsx
-   Floater.tsx
-   ComboBox.tsx
-   LanguageSelector.tsx
-   VideoTranslator.tsx
-   ui/
-    popover.tsx
-    command.tsx
-    dialog.tsx
-    button.tsx
-    toast.tsx
-  hooks/
-   useAudioChunkRecorder.tsx
-   useAudioStream_old.tsx
-   useMediaStreams.tsx
-   useAudioContext.tsx
-   useMediaRecorder.tsx
-  data/
-   example.ts
-   langauges.ts
-  helpers/
-   audio/
-    idGeneration.ts
-    blobConverters.ts
-    translate.ts
+better-ui/
+  tsconfig.node.json
+  run.ipynb
+  postcss.config.cjs
+  yarn.lock
+  tailwind.config.cjs
+  .gitignore
+  package.json
+  vite-env.d.ts
+  utf.js
+  components.json
+  tsconfig.json
+  obfuscate.js
+  vite.config.ts
+  output.txt
+  public/
+    manifestv3.json
+    vite.svg
+    manifest.json
+  src/
+    utils.ts
+    background/
+      vite.chrome.background.config.ts
+      background.ts
+      background.html
+    popup/
+      popup.html
+    content-script/
+      index.tsx
+      App.tsx
+      vite.content.config.ts
+      index.css
+    components/
+      ResponsiveOverlay.tsx
+      Floater.tsx
+      ComboBox.tsx
+      ui/
+        popover.tsx
+        command.tsx
+        dialog.tsx
+        button.tsx
 
 ---
 
+```typescript
+// src/content-script/index.tsx
+ import ReactDOM from "react-dom/client"; import "./index.css"; import App from "./App"; const EXTENSION_ROOT_ID = "betterUI-extension-root"; function createOrGetRoot(): HTMLElement { let root = document.getElementById(EXTENSION_ROOT_ID); if (!root) { root = document.createElement("div"); root.id = EXTENSION_ROOT_ID; document.body?.appendChild(root); } return root; } const rootElement = createOrGetRoot(); const reactRoot = ReactDOM.createRoot(rootElement); reactRoot.render(<App />); 
+```
+
+---
+
+```typescript
+// src/content-script/App.tsx
+import { FC, StrictMode } from "react"; const App: FC = () => { document.addEventListener('DOMContentLoaded', () => { const textareaElement = document.getElementById("prompt-textarea") as HTMLTextAreaElement; if (textareaElement) { textareaElement.addEventListener('contextmenu', (event) => { event.preventDefault(); console.log('Right click detected inside the prompt text-area'); }); } }); return ( <StrictMode> <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white"> <h1 className="text-4xl font-bold">Hello, world!</h1> </div> </StrictMode> ); }; export default App; 
+```

@@ -8,7 +8,7 @@
     "default_title": "Open the popup"
   },
   "permissions": ["storage", "activeTab", "scripting"],
-  "host_permissions": ["<all_urls>"],
+  "host_permissions": ["https://chat.openai.com/*"],
   "background": {
     "service_worker": "background.global.js"
   },
@@ -17,7 +17,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://chat.openai.com/*"],
       "run_at": "document_end",
       "js": ["./index.global.js"],
       "css": ["./style.css"]
