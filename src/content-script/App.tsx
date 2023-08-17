@@ -1,57 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom/client";
-import { cn } from "../utils";
-import { throttle } from "lodash";
+import React, { useRef } from "react";
 import { FaPython } from "react-icons/fa";
 import { SiTypescript } from "react-icons/si";
-
-// render the children of this component above the element using rect coordinates
-type ControlComponentProps = {
-  element: HTMLElement;
-  children: React.ReactNode;
-};
-// pass in the children to render above the element
-const ControlComponent: React.FC<ControlComponentProps> = ({ element, children }) => {
-  // add margin to the bottom of the element
-  element.style.marginBottom = "40px";
-  const [elementDimensions, setElementDimensions] = useState(element.getBoundingClientRect());
-
-  const handleChange = useCallback(
-    throttle(() => {
-      setElementDimensions(element.getBoundingClientRect());
-    }, 200),
-    [element]
-  );
-
-  // observe the element for any changes
-  useEffect(() => {
-    const observer = new MutationObserver(handleChange);
-    const parent = element.parentElement;
-    if (parent) observer.observe(element.parentElement as Node, { childList: true, subtree: true });
-    else observer.observe(element, { childList: true, subtree: true });
-
-    return () => observer.disconnect();
-  }, [element, handleChange]);
-
-  useEffect(() => {
-    setElementDimensions(element.getBoundingClientRect());
-  }, [element]);
-
-  // use tailwind to style the component
-  return (
-    <div
-      style={{
-        top: `${elementDimensions.top + elementDimensions.height}px`,
-        left: `${elementDimensions.left}px`,
-        width: `${elementDimensions.width}px`,
-        height: `1px`,
-      }}
-      className="absolute isolate z-1 flex flex-row justify-start gap-2 items-start px-2"
-    >
-      {children}
-    </div>
-  );
-};
+import CodeBlockButton from "../components/CodeBlockButton";
+import ControlComponent from "../components/ControlComponent";
 
 const App: React.FC = () => {
   const textArea = document.getElementById("prompt-textarea") as HTMLTextAreaElement | null;
@@ -70,52 +21,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-type CodeBlockButtonProps = {
-  textArea: HTMLTextAreaElement;
-  icon: React.ReactNode;
-  language: string;
-};
-
-const codeTag = "```";
-
-const CodeBlockButton: React.FC<CodeBlockButtonProps> = ({ textArea, icon, language }) => {
-  return (
-    <button
-      onClick={async () => {
-        const selectionStart = textArea.selectionStart;
-        const selectionEnd = textArea.selectionEnd;
-        const selection = textArea.value.substring(selectionStart, selectionEnd);
-        const before = textArea.value.substring(0, selectionStart);
-        const after = textArea.value.substring(selectionEnd);
-
-        // set the value to the text before the cursor, the code tag, language, selection, code tag, and the text after the cursor
-        textArea.value =
-          before +
-          codeTag +
-          language +
-          `
-` +
-          selection +
-          `
-` +
-          codeTag +
-          after;
-
-        // set the cursor position to the end of the code tag and language
-        textArea.selectionStart = selectionStart + codeTag.length + language.length + 1;
-        textArea.selectionEnd = selectionStart + codeTag.length + language.length + 1;
-
-        // focus the text area
-        textArea.focus();
-
-        // trigger the input event
-        textArea.dispatchEvent(new Event("input", { bubbles: true }));
-      }}
-      className="z-1 mt-4 my-2 rounded-md bg-slate-500 bg-opacity-90 text-slate-100 px-2 py-1"
-      aria-label={language}
-    >
-      {icon}
-    </button>
-  );
-};
