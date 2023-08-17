@@ -16,19 +16,22 @@ const ControlComponent: React.FC<ControlComponentProps> = ({ element, children }
   element.style.marginBottom = "40px";
   const [elementDimensions, setElementDimensions] = useState(element.getBoundingClientRect());
 
-  const handleResize = useCallback(
+  const handleChange = useCallback(
     throttle(() => {
       setElementDimensions(element.getBoundingClientRect());
     }, 200),
     [element]
   );
 
+  // observe the element for any changes
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [handleResize]);
+    const observer = new MutationObserver(handleChange);
+    const parent = element.parentElement;
+    if (parent) observer.observe(element.parentElement as Node, { childList: true, subtree: true });
+    else observer.observe(element, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [element, handleChange]);
 
   useEffect(() => {
     setElementDimensions(element.getBoundingClientRect());
@@ -43,7 +46,7 @@ const ControlComponent: React.FC<ControlComponentProps> = ({ element, children }
         width: `${elementDimensions.width}px`,
         height: `1px`,
       }}
-      className="absolute isolate z-[5000] flex flex-row justify-start gap-2 items-start px-2"
+      className="absolute isolate z-1 flex flex-row justify-start gap-2 items-start px-2"
     >
       {children}
     </div>
@@ -91,10 +94,10 @@ const CodeBlockButton: React.FC<CodeBlockButtonProps> = ({ textArea, icon, langu
           before +
           codeTag +
           language +
-`
+          `
 ` +
           selection +
-`
+          `
 ` +
           codeTag +
           after;
@@ -108,9 +111,8 @@ const CodeBlockButton: React.FC<CodeBlockButtonProps> = ({ textArea, icon, langu
 
         // trigger the input event
         textArea.dispatchEvent(new Event("input", { bubbles: true }));
-        
       }}
-      className="z-[50001] mt-4 my-2 rounded-md bg-slate-500 bg-opacity-90 text-slate-100 px-2 py-1"
+      className="z-1 mt-4 my-2 rounded-md bg-slate-500 bg-opacity-90 text-slate-100 px-2 py-1"
       aria-label={language}
     >
       {icon}
