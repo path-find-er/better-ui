@@ -12,7 +12,7 @@ const newline = `
 
 const CodeBlockButton: React.FC<CodeBlockButtonProps> = ({ textArea, icon, language }) => {
   return (
-    <button
+    <div
       onClick={async () => {
         const selectionStart = textArea.selectionStart;
         const selectionEnd = textArea.selectionEnd;
@@ -37,7 +37,7 @@ const CodeBlockButton: React.FC<CodeBlockButtonProps> = ({ textArea, icon, langu
       aria-label={language}
     >
       {icon}
-    </button>
+    </div>
   );
 };
 

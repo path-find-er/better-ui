@@ -1,19 +1,20 @@
-total: 466
+total: 819
 
 better-ui/
   tsconfig.node.json
   run.ipynb
   postcss.config.cjs
+  README.md
   yarn.lock
   tailwind.config.cjs
   .gitignore
   package.json
   vite-env.d.ts
-  utf.js
   components.json
   tsconfig.json
   obfuscate.js
   vite.config.ts
+  showcase.mov
   output.txt
   public/
     manifestv3.json
@@ -36,6 +37,9 @@ better-ui/
       ResponsiveOverlay.tsx
       Floater.tsx
       ComboBox.tsx
+      CodeBlockButton.tsx
+      TextAreaControl.tsx
+      ControlComponent.tsx
       ui/
         popover.tsx
         command.tsx
@@ -53,5 +57,12 @@ better-ui/
 
 ```typescript
 // src/content-script/App.tsx
-import { FC, StrictMode } from "react"; const App: FC = () => { document.addEventListener('DOMContentLoaded', () => { const textareaElement = document.getElementById("prompt-textarea") as HTMLTextAreaElement; if (textareaElement) { textareaElement.addEventListener('contextmenu', (event) => { event.preventDefault(); console.log('Right click detected inside the prompt text-area'); }); } }); return ( <StrictMode> <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white"> <h1 className="text-4xl font-bold">Hello, world!</h1> </div> </StrictMode> ); }; export default App; 
+import React, { useRef } from "react"; import { FaPython, FaJava, FaMarkdown } from "react-icons/fa"; import { SiTypescript, SiJavascript, SiC, SiCplusplus } from "react-icons/si"; import { BsFiletypeHtml } from "react-icons/bs"; import CodeBlockButton from "../components/CodeBlockButton"; import ControlComponent from "../components/ControlComponent"; const App: React.FC = () => { const textArea = document.getElementById("prompt-textarea") as HTMLTextAreaElement | null; return ( <div> {textArea && ( <ControlComponent element={textArea}> <div className="max-w-[200px] max-h-min rounded-md px-2 gap-x-2 overflow-hidden hover:overflow-x-auto active:overflow-x-auto focus:overflow-x-auto flex flex-row justify-between"> <CodeBlockButton textArea={textArea} icon={<FaPython />} language="python" /> <CodeBlockButton textArea={textArea} icon={<SiTypescript />} language="typeScript" /> <CodeBlockButton textArea={textArea} icon={<FaMarkdown />} language="markdown" /> <CodeBlockButton textArea={textArea} icon={<BsFiletypeHtml />} language="html" /> <CodeBlockButton textArea={textArea} icon={<SiJavascript />} language="javaScript" /> <CodeBlockButton textArea={textArea} icon={<FaJava />} language="java" /> <CodeBlockButton textArea={textArea} icon={<SiC />} language="c" /> <CodeBlockButton textArea={textArea} icon={<SiCplusplus />} language="c++" /> </div> </ControlComponent> )} </div> ); }; export default App; 
+```
+
+---
+
+```typescript
+// src/components/ControlComponent.tsx
+import React, { useEffect, useRef } from "react"; import ReactDOM from "react-dom/client"; type ControlComponentProps = { element: HTMLElement; children: React.ReactNode; }; const ControlComponent = ({ element, children }: ControlComponentProps) => { const newRoot = ReactDOM.createRoot(element); newRoot.render(children); useEffect(() => { return () => { newRoot.unmount(); }; }, []); return null; } export default ControlComponent; 
 ```
