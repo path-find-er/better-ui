@@ -33,7 +33,7 @@ const CodeBlockButton: React.FC<CodeBlockButtonProps> = ({ textArea, icon, langu
         // trigger the input event
         textArea.dispatchEvent(new Event("input", { bubbles: true }));
       }}
-      className="z-1 mt-4 my-2 rounded-md bg-slate-500 bg-opacity-90 text-slate-100 px-2 py-1"
+      className="z-1 mt-4 my-2 rounded-md bg-gray-900 text-gray-300 px-2 py-2 hover:bg-opacity-100 hover:bg-slate-600 cursor-pointer"
       aria-label={language}
     >
       {icon}
