@@ -1,0 +1,26 @@
+{
+  "name": "betterUI",
+  "description": "Better Ui for ChatGPT",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_title": "Open the popup"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://chat.openai.com/*"],
+  "background": {
+    "service_worker": "background.global.js"
+  },
+  "icons": {
+    "128": "vite.svg"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*"],
+      "run_at": "document_end",
+      "js": ["./index.global.js"],
+      "css": ["./style.css"]
+    }
+  ]
+}
