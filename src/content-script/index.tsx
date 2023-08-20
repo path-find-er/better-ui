@@ -8,8 +8,11 @@ import { BiText } from "react-icons/bi";
 import CodeBlockButton from "../components/CodeBlockButton";
 import { FC, useState } from "react";
 import { cn } from "../utils";
+import { useHeaderContentLogger } from "./state";
 
 const ToolBar: FC<{ children: React.ReactNode }> = ({ children }) => {
+  useHeaderContentLogger();
+
   return <div className="w-full">{children}</div>;
 };
 
@@ -45,6 +48,7 @@ if (promptTextArea) {
     </ToolBar>
   );
 }
+
 // get the chatHistoryPanel by using the aria-label: Chat history. Its a nav element
 const chatHistoryPanel = document.querySelector('[aria-label="Chat history"]') as HTMLDivElement | null;
 
